@@ -127,8 +127,6 @@ longitudinal_files_df =
       pattern = "\\.csv$"
     )
   )
-
-longitudinal_files_df
 ```
 
 ```{r}
@@ -215,6 +213,13 @@ longitudinal_tidy_df |>
     end = 0.85
   ) +
   scale_x_continuous(breaks = 1:8) +
+  labs(
+    title = "Participant Trajectories Over Time",
+    subtitle = "Weekly observations by study group",
+    x = "Week",
+    y = "Observation",
+    caption = "Thin colored lines represent individual participants; thick red lines represent group means."
+  ) +
   labs(
     title = "Participant Trajectories Over Time",
     subtitle = "Weekly observations by study group",

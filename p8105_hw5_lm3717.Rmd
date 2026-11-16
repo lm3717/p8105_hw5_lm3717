@@ -29,6 +29,8 @@ set.seed(1)
 
 ## Problem 1
 
+To look at the birthday paradox, I created a function that randomly generates birthdays for a specified number of people and checks whether any birthdays are repeated. Using `purrr::map_lgl()`, I repeated this simulation 10,000 times for group sizes ranging from 2 to 50. I then calculated the proportion of simulations containing at least one shared birthday for each group size and visualized the estimated probabilities.
+
 ```{r}
 birthday_repeated = function(n) {
   birthdays = sample(1:365, size = n, replace = TRUE)
@@ -118,6 +120,8 @@ birthday_summary_df |>
 The estimated probability that at least two people share a birthday increases rapidly with group size. With only 23 people, the probability is approximately 50%, and by 50 people, it approaches 97%. Although there are 365 possible birthdays, a shared birthday becomes likely in relatively small groups because the number of possible pairs increases quickly as more people are added. These results illustrate the birthday paradox.
 
 ## Problem 2
+
+For this problem, I imported the 20 participant CSV files using `purrr::map()` and combined them into a single dataframe using `unnest()`. I then reshaped the data into tidy format, with one row per participant per week, and identified participants as belonging to either the control or experimental group. To examine changes over time, I created a spaghetti plot showing individual participant trajectories, with an additional line representing the mean observation for each group at each week.
 
 ```{r}
 longitudinal_files_df =
@@ -233,6 +237,8 @@ The spaghetti plot shows distinct patterns between the control and experimental 
 
 ## Problem 3
 
+I created a function to generate random samples of 30 observations from a normal distribution with a specified population mean and standard deviation of 5. For each simulated dataset, I performed a one-sample t-test against the null hypothesis that the population mean equals zero. I repeated the simulation 5,000 times for each true mean from 0 to 6, then calculated the proportion of tests rejecting the null hypothesis at a significance level of 0.05. Finally, I compared the average estimated means across all simulations with those obtained from statistically significant results only.
+
 ```{r}
 sim_t_test = function(mu) {
   sim_data = tibble(
@@ -326,6 +332,8 @@ power_df |>
   )
 ```
 
+The simulation results show that statistical power increases as the true population mean moves farther from the null hypothesis value of zero. When μ = 0, the rejection proportion is approximately 4.9%, consistent with the nominal 5% Type I error rate. Power increases to 56.7% at μ = 2 and 88.8% at μ = 3, eventually approaching 100% for larger population means. This demonstrates that larger effect sizes are easier to detect when sample size and variability are held constant.
+
 ```{r}
 mean_estimates_df =
   sim_all_df |>
@@ -388,11 +396,5 @@ mean_estimates_df |>
     legend.position = "bottom"
   )
 ```
-
-### Statistical Power
-
-The simulation results show that statistical power increases as the true population mean moves farther from the null hypothesis value of zero. When μ = 0, the rejection proportion is approximately 4.9%, consistent with the nominal 5% Type I error rate. Power increases to 56.7% at μ = 2 and 88.8% at μ = 3, eventually approaching 100% for larger population means. This demonstrates that larger effect sizes are easier to detect when sample size and variability are held constant.
-
-### Comparison of Estimated Means
 
 The average estimated means across all simulations closely match the true population means, demonstrating that the sample mean is an unbiased estimator. However, when considering only statistically significant results, the estimated means tend to overestimate the true mean, particularly when statistical power is low. For example, when μ = 1, the average estimate across all simulations is 1.01, compared with 2.27 among significant results. As the true mean increases and power approaches 100%, this discrepancy becomes smaller. These findings illustrate how selecting only statistically significant results can exaggerate estimated effect sizes.

@@ -86,7 +86,7 @@ birthday_summary_df |>
   x = 32, y = 0.43,
   label = "23 people = ~50% chance",
   size = 3.5,
-  label.size = 0,
+  linewidth = 0,
   fill = "white"
   ) +
   scale_color_viridis_c(
@@ -220,12 +220,6 @@ longitudinal_tidy_df |>
     y = "Observation",
     caption = "Thin colored lines represent individual participants; thick red lines represent group means."
   ) +
-  labs(
-    title = "Participant Trajectories Over Time",
-    subtitle = "Weekly observations by study group",
-    x = "Week",
-    y = "Observation"
-  ) +
   theme_minimal() +
   theme(
     plot.title = element_text(face = "bold", size = 16),
@@ -260,8 +254,6 @@ sim_results_df =
     results = map(iter, ~ sim_t_test(mu = 0))
   ) |>
   unnest(results)
-
-sim_results_df
 ```
 
 ```{r}
@@ -281,8 +273,6 @@ sim_all_df =
     results = map(mu, sim_t_test)
   ) |>
   unnest(results)
-
-sim_all_df
 ```
 
 ```{r}
